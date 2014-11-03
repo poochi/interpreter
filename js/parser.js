@@ -9,7 +9,7 @@ function min(a,b) {
 }
 //array of tokens 
 //each token struct should have tag and regexp
-function PARSER(tokens) {
+function TOKENIZER(tokens) {
 
 	this.tokenexpr = tokens;
 	this.parsedtokens = [];
@@ -22,7 +22,7 @@ function PARSER(tokens) {
 //tokenizer
 // the given string of words are segmented into tokens and returned 
 // if an incorrect token is encountered the parser returns assertion failure , true otherwise
-PARSER.prototype.TagToken = function (string) {
+TOKENIZER.prototype.TagToken = function (string) {
 
 console.log(string.length);
 var pos =0;

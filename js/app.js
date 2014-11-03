@@ -2,7 +2,7 @@ var tokens =[];
 //Define your langue syntax ('how does your language look') here
 //Keywords of language , arrange them based on reverse priority
 
-//keywords
+//keywords for tokenizing
 tokens.push({re:/\(/,tag:'PARAN_OPEN'});
 tokens.push({re:/\)/,tag:'PARAN_CLOSE'});
 tokens.push({re:/while/,tag:'while'});
@@ -34,14 +34,25 @@ tokens.push({re:/[a-zA-z0-9_]+/,tag:'VAR'});
 
 function myFunction() {
 	var string = document.getElementById("myTextarea");
-	parser = new PARSER(tokens);
+	var tokenizer = new TOKENIZER(tokens);
 	//read line by line
-	r = parser.TagToken(string.value);
+	r = tokenizer.TagToken(string.value);
 	var val="";
 	if(r == 0) {
-		for(var i=0;i<parser.parsedtokens.length;i++)
-			val +=parser.parsedtokens[i].value+" matched as " + parser.parsedtokens[i].tag+"<br>";			
+		for(var i=0;i<tokenizer.parsedtokens.length;i++)
+			val +=tokenizer.parsedtokens[i].value+" matched as " + tokenizer.parsedtokens[i].tag+"<br>";
+		var newtokens = [];
+		val = [];
+		for(var i=0;i<tokenizer.parsedtokens.length;i++)
+			if(tokenizer.parsedtokens[i].tag !="whitespace") {
+				newtokens.push(tokenizer.parsedtokens[i]);
+				val+=tokenizer.parsedtokens[i].tag+"<br>";
+			}
+			
+		var mylang = new GRAMMAR();
+		val = mylang.run(newtokens);		
 	} else
 		val = r;
+		
 	document.getElementById("demo").innerHTML = val;
 }
